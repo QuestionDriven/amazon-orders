@@ -33,6 +33,7 @@ module Amazon
     def save_order(wd)
       sleep 1
       wd.find_element(:link_text, '利用規約')
+      reveal_hiddens(wd)
       orders = wd.find_elements(:link_text, '領収書／購入明細書')
       orders.each do |ord|
 
@@ -41,6 +42,20 @@ module Amazon
           wd.save_screenshot("#{SCREENSHOTS_DIR}/order_#{format('%03d', @order_seq)}.png")
         end
       end
+    end
+
+    # デジタル注文の購入明細へのリンクを表示する。
+    def reveal_hiddens(wd)
+        script = <<-EOS
+          (function(){
+              var hiddens = document.getElementsByClassName("hide-if-js");
+              Array.prototype.forEach.call(hiddens, function(element) {
+                  element.setAttribute("style", "display: inline !important");
+              });
+          })();
+        EOS
+
+        wd.execute_script(script)
     end
 
     def save_order_history(wd, auth)
