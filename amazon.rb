@@ -44,10 +44,17 @@ module Amazon
       end
     end
 
-    # デジタル注文の購入明細へのリンクを表示する。
+    # デジタル注文の購入明細へのリンクを表示するため、
+    # 'hide-if-no-js'の要素を非表示にし、'hide-if-js'の要素を表示する
+    # (javascript.enabled = falseのprofileが上手く動かなかったため)
     def reveal_hiddens(wd)
         script = <<-EOS
           (function(){
+              var visibles = document.getElementsByClassName("hide-if-no-js");
+              Array.prototype.forEach.call(visibles, function(element) {
+                  element.setAttribute("style", "display: none");
+              });
+
               var hiddens = document.getElementsByClassName("hide-if-js");
               Array.prototype.forEach.call(hiddens, function(element) {
                   element.setAttribute("style", "display: inline !important");
