@@ -1,0 +1,11 @@
+Gemfile.lock
+
+screenshots/*
+
+*.csv
+*.pdf
+*.png
+*.html
+
+!head.csv
+
